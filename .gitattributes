@@ -1,2 +1,317 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+
+##gRUPO NO 10
+# Definición de la estructura Producto
+PYTHON
+class Producto:
+    def __init__(self, nombre, codigo, precio, proveedor, existencia, estado, descuento):
+        self.nombre = nombre
+        self.codigo = codigo
+        self.precio = precio
+        self.proveedor = proveedor
+        self.existencia = existencia
+        self.estado = estado
+        self.descuento = descuento
+
+totalProductos = 0  # Variable para rastrear el número total de productos
+productos = [None] * 100  # Lista para almacenar los productos (ajusta el tamaño según sea necesario)
+
+while True:
+    # Mostrar el menú
+    print("Menu:")
+    print("1. Agregar producto")
+    print("2. Buscar un producto")
+    print("3. Modificar los datos de un producto")
+    print("4. Salir")
+    opcion = input("Seleccione una opción: ")
+
+    if opcion == "1":
+        print("Ha seleccionado la opción 1: Agregar producto")
+        producto = Producto(
+            input("Ingrese el nombre del producto: "),
+            input("Ingrese el código del producto: "),
+            float(input("Ingrese el precio del producto: ")),
+            input("Ingrese el proveedor del producto: "),
+            int(input("Ingrese la existencia del producto: ")),
+            input("Ingrese el estado del producto (A para Aprobado, R para Reprobado): "),
+            float(input("Ingrese el descuento del producto: "))
+        )
+
+        # Agregar el producto a la lista de productos
+        productos[totalProductos] = producto
+        totalProductos += 1
+
+    elif opcion == "2":
+        print("Ha seleccionado la Opción 2: Buscar un producto")
+        buscarNombreOcodigo = input("Ingrese el nombre o código del producto a buscar: ")
+
+        # Itera a través de la lista de productos para buscar el producto
+        productoEncontrado = False
+        for i in range(totalProductos):
+            if buscarNombreOcodigo in (productos[i].nombre, productos[i].codigo):
+                # Muestra la información del producto encontrado
+                print("Producto encontrado:")
+                print("Nombre:", productos[i].nombre)
+                print("Código:", productos[i].codigo)
+                print("Precio: Q", productos[i].precio)
+                print("Proveedor:", productos[i].proveedor)
+                print("Existencia:", productos[i].existencia)
+                print("Estado:", productos[i].estado)
+                print("Descuento:", productos[i].descuento, "%")
+                productoEncontrado = True
+
+        if not productoEncontrado:
+            print("Producto no encontrado.")
+
+    elif opcion == "3":
+        print("Ha seleccionado la Opción 3: Modificar los datos de un producto")
+        modificarNombreOcodigo = input("Ingrese el nombre o código del producto a modificar: ")
+
+        # Itera a través de la lista de productos para buscar el producto a modificar
+        productoAModificarEncontrado = False
+        for i in range(totalProductos):
+            if modificarNombreOcodigo in (productos[i].nombre, productos[i].codigo):
+                # Muestra la información actual del producto
+                print("Información actual del producto:")
+                print("Nombre:", productos[i].nombre)
+                print("Código:", productos[i].codigo)
+                print("Precio: Q", productos[i].precio)
+                print("Proveedor:", productos[i].proveedor)
+                print("Existencia:", productos[i].existencia)
+                print("Estado:", productos[i].estado)
+                print("Descuento:", productos[i].descuento, "%")
+
+                # Solicita al usuario que ingrese los nuevos datos del producto
+                print("Ingrese los nuevos datos del producto:")
+                productos[i].precio = float(input("Nuevo precio: Q"))
+                productos[i].proveedor = input("Nuevo proveedor: ")
+                productos[i].existencia = int(input("Nueva existencia: "))
+                productos[i].estado = input("Nuevo estado (A para Aprobado, R para Reprobado): ")
+                productos[i].descuento = float(input("Nuevo descuento (%): "))
+
+                print("Producto modificado exitosamente.")
+                productoAModificarEncontrado = True
+                break  # Termina el bucle una vez que se modifica el producto
+
+        if not productoAModificarEncontrado:
+            print("Producto no encontrado.")
+
+    elif opcion == "4":
+        print("Saliendo del programa. ¡Hasta luego!")
+        break
+
+    else:
+        print("Opción no válida. Por favor, seleccione una opción válida.")
+
+# Al salir del programa, guardar los datos en un archivo .txt
+with open("productos.txt", "w") as archivo:
+    for i in range(totalProductos):
+        archivo.write("Nombre: " + productos[i].nombre + "\n")
+        archivo.write("Código: " + productos[i].codigo + "\n")
+        archivo.write("Precio: Q" + str(productos[i].precio) + "\n")
+        archivo.write("Proveedor: " + productos[i].proveedor + "\n")
+        archivo.write("Existencia: " + str(productos[i].existencia) + "\n")
+        archivo.write("Estado: " + productos[i].estado + "\n")
+        archivo.write("Descuento: " + str(productos[i].descuento) + "%\n")
+        archivo.write("-------------------------------------\n")
+
+print("Datos guardados en 'productos.txt'.")
+____________________________________________________________________________________________________
+#C++ 
+#include <iostream>
+#include <string>
+#include <fstream> // Agregar la biblioteca para trabajar con archivos
+
+using namespace std;
+
+// Definici�n de la estructura producto
+struct Producto {
+    string nombre;
+    string codigo;
+    float precio;
+    string proveedor;
+    int existencia;
+    char estado;
+    float descuento;
+};
+
+int main() {
+    int opcion;
+    int totalProductos = 0; // Variable para rastrear el nUmero total de productos
+    Producto productos[100]; // Arreglo para almacenar los productos (ajusta el tamaño segun sea necesario)
+
+    do {
+        // Mostrar el menu
+        cout << "Menu: " << endl;
+        cout << "1. Agregar producto" << endl;
+        cout << "2. Buscar a un producto" << endl;
+        cout << "3. Modificar los datos de un producto" << endl;
+        cout << "4. Salir" << endl;
+        cout << "Seleccione una opcion: ";
+
+        // Leer la opcion ingresada por el usuario
+        cin >> opcion;
+
+        // Realizar acciones segun la opcion seleccionada
+        switch (opcion) {
+            case 1:
+            {
+                cout << "Ha seleccionado la opcion 1: Agregar producto" << endl;
+                Producto producto; // Declaracion de la variable producto de tipo Producto
+
+                cout << "Ingrese el nombre del producto: ";
+                cin.ignore(); // Ignorar el salto de lenea anterior
+                getline(cin, producto.nombre);
+
+                string nuevoCodigo;
+                bool codigoRepetido;
+
+                do {
+                    cout << "Ingrese el codigo del producto: ";
+                    getline(cin, nuevoCodigo);
+
+                    // Verifica si el codigo ya existe en la lista de productos
+                    codigoRepetido = false;
+                    for (int i = 0; i < totalProductos; i++) {
+                        if (productos[i].codigo == nuevoCodigo) {
+                            cout << "El codigo ingresado ya existe. Por favor, ingrese otro codigo." << endl;
+                            codigoRepetido = true;
+                            break; // Sale del bucle al encontrar un codigo repetido
+                        }
+                    }
+                } while (codigoRepetido);
+                producto.codigo = nuevoCodigo;
+
+                cout << "Ingrese el precio del producto: ";
+                cin >> producto.precio; // Leer el precio como un numero de punto flotante
+
+                cout << "Ingrese el proveedor del producto: ";
+                cin.ignore(); // Ignorar el salto de linea anterior
+                getline(cin, producto.proveedor);
+
+                cout << "Ingrese la existencia del producto: ";
+                cin >> producto.existencia;
+
+                cout << "Ingrese el estado del producto (A para Aprobado, R para Reprobado): ";
+                cin >> producto.estado;
+
+                cout << "Ingrese el descuento del producto: ";
+                cin >> producto.descuento;
+
+                // Agregar el producto al arreglo de productos
+                productos[totalProductos] = producto;
+                totalProductos++;
+                break;
+            }
+            case 2:
+            {
+                cout << "Ha seleccionado la Opcion 2: Buscar a un producto" << endl;
+                string buscarNombreOcodigo;
+                cout << "Ingrese el nombre o codigo del producto a buscar: ";
+                cin.ignore();
+                getline(cin, buscarNombreOcodigo);
+
+                // Itera a traves de la lista de productos para buscar el producto
+                bool productoEncontrado = false;
+                for (int i = 0; i < totalProductos; i++) {
+                    bool nombreCoincide = productos[i].nombre.find(buscarNombreOcodigo.c_str()) != string::npos;
+                    bool codigoCoincide = productos[i].codigo.find(buscarNombreOcodigo.c_str()) != string::npos;
+
+                    if (nombreCoincide || codigoCoincide) {
+                        // Muestra la informacion del producto encontrado
+                        cout << "Producto encontrado:" << endl;
+                        cout << "Nombre: " << productos[i].nombre << endl;
+                        cout << "Codigo: " << productos[i].codigo << endl;
+                        cout << "Precio: Q" << productos[i].precio << endl;
+                        cout << "Proveedor: " << productos[i].proveedor << endl;
+                        cout << "Existencia: " << productos[i].existencia << endl;
+                        cout << "Estado: " << productos[i].estado << endl;
+                        cout << "Descuento: " << productos[i].descuento << "%" << endl;
+                        productoEncontrado = true;
+                    }
+                }
+
+                if (!productoEncontrado) {
+                    cout << "Producto no encontrado." << endl;
+                }
+                break;
+            }
+            case 3:
+            {
+                cout << "Ha seleccionado la Opcion 3: Modificar los datos de un producto" << endl;
+                string modificarNombreOcodigo;
+                cout << "Ingrese el nombre o codigo del producto a modificar: ";
+                cin.ignore();
+                getline(cin, modificarNombreOcodigo);
+
+                // Itera a traves de la lista de productos para buscar el producto a modificar
+                bool productoAModificarEncontrado = false;
+                for (int i = 0; i < totalProductos; i++) {
+                    if (productos[i].nombre == modificarNombreOcodigo || productos[i].codigo == modificarNombreOcodigo) {
+                        // Muestra la informacin actual del producto
+                        cout << "Informacion actual del producto:" << endl;
+                        cout << "Nombre: " << productos[i].nombre << endl;
+                        cout << "Codigo: " << productos[i].codigo << endl;
+                        cout << "Precio: Q" << productos[i].precio << endl;
+                        cout << "Proveedor: " << productos[i].proveedor << endl;
+                        cout << "Existencia: " << productos[i].existencia << endl;
+                        cout << "Estado: " << productos[i].estado << endl;
+                        cout << "Descuento: " << productos[i].descuento << "%" << endl;
+
+                        // Solicita al usuario que ingrese los nuevos datos del producto
+                        cout << "Ingrese los nuevos datos del producto:" << endl;
+                        cout << "Nuevo precio: Q";
+                        cin >> productos[i].precio;
+                        cout << "Nuevo proveedor: ";
+                        cin.ignore();
+                        getline(cin, productos[i].proveedor);
+                        cout << "Nueva existencia: ";
+                        cin >> productos[i].existencia;
+                        cout << "Nuevo estado (A para Aprobado, R para Reprobado): ";
+                        cin >> productos[i].estado;
+                        cout << "Nuevo descuento (%): ";
+                        cin >> productos[i].descuento;
+
+                        cout << "Producto modificado exitosamente." << endl;
+                        productoAModificarEncontrado = true;
+                        break; // Termina el bucle una vez que se modifica el producto
+                    }
+                }
+
+                if (!productoAModificarEncontrado) {
+                    cout << "Producto no encontrado." << endl;
+                }
+                break;
+            }
+            case 4:
+                cout << "Saliendo del programa. ¡Hasta luego!" << endl;
+                break;
+            default:
+                cout << "Opcion no valida. Por favor, seleccione una opcion valida." << endl;
+                break;
+        }
+    } while (opcion != 4); // El bucle se repetira mientras la opcion no sea 4 (Salir)
+
+    // Al salir del programa, guardar los datos en un archivo .txt
+    ofstream archivo("productos.txt"); // Abre un archivo llamado "productos.txt" para escribir
+
+    if (archivo.is_open()) {
+        for (int i = 0; i < totalProductos; i++) {
+            archivo << "Nombre: " << productos[i].nombre << endl;
+            archivo << "Codigo: " << productos[i].codigo << endl;
+            archivo << "Precio: Q" << productos[i].precio << endl;
+            archivo << "Proveedor: " << productos[i].proveedor << endl;
+            archivo << "Existencia: " << productos[i].existencia << endl;
+            archivo << "Estado: " << productos[i].estado << endl;
+            archivo << "Descuento: " << productos[i].descuento << "%" << endl;
+            archivo << "-------------------------------------" << endl;
+        }
+        archivo.close(); // Cierra el archivo
+        cout << "Datos guardados en 'productos.txt'." << endl;
+    } else {
+        cout << "No se pudo abrir el archivo para guardar los datos." << endl;
+    }
+
+    return 0;
+}
+
+
